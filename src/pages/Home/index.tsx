@@ -38,6 +38,7 @@ interface Cycle {
 export function Home() {
   const [cycles, setCycle] = useState<Cycle[]>([]);
   const [activeCycleId, setActiveCycleId] = useState<string | null>(null);
+  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
   const { register, handleSubmit, watch, formState, reset } =
     useForm<NewCycleFormData>({
@@ -64,8 +65,17 @@ export function Home() {
     reset();
   }
 
-
+  
   const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
+
+  const totalSeconds = activeCycle ?  activeCycle.minutesAmount * 60 : 0
+  const currencySeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
+
+  const minutesAmount = Math.floor(currencySeconds / 60);
+  const secondsAmount = currencySeconds  % 60
+
+  const minutes = String(minutesAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')
 
   console.log(activeCycle);
   // console.log(formState.errors)
@@ -105,11 +115,11 @@ export function Home() {
         <span>minutes.</span>
 
         <CountdownContainer>
-          <span>0</span>
-          <span>0</span>
+          <span>{minutes[0]}</span>
+          <span>{minutes[1]}</span>
           <Separator>:</Separator>
-          <span>0</span>
-          <span>0</span>
+          <span>{seconds[0]}</span>
+          <span>{seconds[1]}</span>
         </CountdownContainer>
 
         <StartCountdownButton disabled={isSubmitDisabled} type="submit">
