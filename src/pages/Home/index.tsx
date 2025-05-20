@@ -55,13 +55,19 @@ export function Home() {
 
   // Starts an interval to update elapsed time every second from cycle start.
   useEffect(() => {
+    let interval: number;
+
     if (activeCycle) {
-      setInterval(() => {
+      interval = setInterval(() => {
         setAmountSecondsPassed(
           differenceInSeconds(new Date(), activeCycle.startDate)
         );
       }, 1000);
     }
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [activeCycle]);
 
   function handleCreateNewCycle(data: NewCycleFormData) {
@@ -77,6 +83,7 @@ export function Home() {
     // closures
     setCycle((state) => [...state, newCycle]); // adiciona o novo ciclo na lista
     setActiveCycleId(id); // define esse ciclo como ativo
+    setAmountSecondsPassed(0); //reset the seconds
 
     reset();
   }
@@ -90,8 +97,11 @@ export function Home() {
   const minutes = String(minutesAmount).padStart(2, "0");
   const seconds = String(secondsAmount).padStart(2, "0");
 
-  console.log(activeCycle);
-  // console.log(formState.errors)
+  useEffect(() => {
+    if (activeCycle) {
+      document.title = `${minutes}:${seconds}`
+    }
+  }, [minutes, seconds])
 
   const task = watch("task");
   const isSubmitDisabled = !task;
