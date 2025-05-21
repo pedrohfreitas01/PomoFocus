@@ -69,15 +69,13 @@ export function CyclesContextProvider({
     setCycle((state) => [...state, newCycle]);
     setActiveCycleId(id);
     setAmountSecondsPassed(0);
-
-    //   reset();
   }
 
   function stopCurrencyCycle() {
     setCycle((state) =>
       state.map((cycle) => {
         if (cycle.id === activeCycleId) {
-          return { ...cycle, startDate: new Date() };
+          return { ...cycle, stopDate: new Date() };
         } else {
           return cycle;
         }
