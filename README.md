@@ -26,8 +26,8 @@ https://pomo-focus-silk.vercel.app/
 
 ## 🛠️ Como rodar o projeto localmente
 ```bash
-git clone https://github.com/seuusuario/nome-do-repo.git
-cd nome-do-repo
+git clone https://github.com/pedrohfreitas01/PomoFocus
+cd PomoFocus
 
 npm install
 npm run dev
